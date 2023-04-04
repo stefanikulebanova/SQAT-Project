@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xlmns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta>
+  <title>AddCourse</title>
+  <script href="/main.css"></script>
+</head>
+<body>
+
+<div>
+  <form action="/courses/add" method="POST">
+    <div>
+      <label for="name">Course name</label>
+      <input type="text"
+             class="form-control"
+             id="name"
+             name="name"
+             th:value="(${course} != null ? ${course.getName()} : '')"
+             placeholder="Enter course name">
+    </div>
+    <div>
+      <label for="description">Course Description</label>
+      <input type="text"
+             class="form-control"
+             id="description"
+             name="description"
+             th:value="(${course} != null ? ${course.getDescription()} : '')"
+             placeholder="Description">
+    </div>
+    <div>
+        <select name="teacherId" id="teacherId">
+           <option th:each="teacher : ${teachers}" th:value="${teacher.id}"
+              th:selected="${course} != null ? ${teacher.id == course.teacher.id} : ''"
+              th:text="${teacher.teacherFullName.name} + ' ' + ${teacher.teacherFullName.surname}"></option>
+        </select>
+    </div>
+    <div>
+    <select name="type">
+      <option th:each="type : ${T(mk.ukim.finki.wp.lab.model.enumerations.Type).values()}"
+              th:selected="${course} != null ? ${type == course.type} : ''"
+              th:value="${type}" th:text="${type}"></option>
+    </select>
+    </div>
+    <input id='courseId' type='hidden' name='courseId' th:value="${course} != null ? ${course.courseId} : ''"/><br/>
+    <button type="submit" value="Submit">Submit</button>
+    <a type="button" href="/courses">Back</a>
+  </form>
+</div>
+
+</body>
+</html>

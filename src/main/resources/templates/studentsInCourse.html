@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <title>WP lab - Students in Course</title>
+</head>
+<style>
+  .form-popup {
+    display: none;
+    float: left;
+    margin-left: 30px;
+    z-index: 9;
+  }
+</style>
+<body>
+<header>
+  <h1>Students in Course</h1>
+</header>
+<a href="/addStudent">Back</a>
+<br/>
+<section>
+  <div style="float: left;">
+  <div><th:block th:text="${course}"></th:block> </div>
+  <ul th:each="student: ${students}">
+    <li><th:block th:text="${student.name}"></th:block> <th:block th:text="${student.surname}"></th:block>
+      <th:block th:each="grade : ${grades}">
+        <th:block th:if="${grade.student.name} == ${student.name}">
+          </br>
+          <th:block th:text="'Grade: ' + ${grade.grade} + ' on date: ' +
+                    ${#temporals.format(grade.timestamp, 'dd-MM-yyyy HH:mm:ss')}"></th:block>
+          </th:block>
+      </th:block>
+        <button style="float: right; margin-left: 10px;" class=" btn btn-outline-success" th:name="${student.name}" th:id="${student.getStudentId()}" onclick="openForm(this)">
+          Add/Change grade</button>
+      </li>
+  </ul>
+  </div>
+  <div class="form-popup border border-primary rounded-lg p-3" id="myForm">
+    <h3 id="gradeFormName"></h3>
+    <form id="studentForm" method="POST">
+      <div>
+        Student name <input type="text" id="chosenName" name="name">
+        Student id <input type="text" id="chosenId" name="id">
+      </div>
+      <div>
+        <label for="grade">Grade</label>
+        <input type="text"
+               id="grade"
+               name="grade"
+               placeholder="Insert Grade">
+
+        <label for="grade">Date for grade input</label>
+        <input type="datetime-local"
+               id="datetime"
+               name="datetime">
+      </div>
+      <button onclick="closeForm()">Cancel</button>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</section>
+</body>
+<script th:inline="javascript">
+  function openForm(element) {
+    document.getElementById("myForm").style.display = "block";
+    document.getElementById("chosenName").value = element.name;
+    document.getElementById("chosenId").value = element.id;
+    document.getElementById("studentForm").action = `/courses/addGrade/id=${element.id}`;
+    /*<![CDATA[*/
+
+    var grades = /*[[${grades}]]*/ 'default';
+    var change=false;
+    //console.log(typeof(grades));
+    if(grades.length>0){
+      for( var grade in grades){
+        console.log(grade['student']);
+        if(grade.student.name===element.name){
+          document.getElementById("grade").value = grade;
+          document.getElementById("gradeFormName").innerText = "Change grade";
+          change=true;
+        }
+      }
+    }
+    if(!change){
+      document.getElementById("gradeFormName").innerText = "Add grade"
+    }
+
+    /*]]>*/
+  }
+  function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+  }
+</script>
+</html>

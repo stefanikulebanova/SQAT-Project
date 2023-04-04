@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
+    <title>Welcome and Choose a Course</title>
+    <style>
+        body {
+            width: 1100px;
+            margin: auto;
+        }
+        .table-responsive{
+            width: 800px;
+            float: left;
+        }
+        #goUP{
+            margin-left: 90px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Courses List</h1>
+</header>
+<main>
+    <br/>
+
+    <div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+          <td>Course name</td>
+          <td>Description</td>
+          <td>Teacher</td>
+        </tr>
+        </thead>
+    <tbody>
+        <tr th:each="course : ${courses}">
+           <td> <th:block th:text="${course.getName()}"/> </td>
+           <td> <th:block th:text="${course.getDescription()}"/> </td>
+           <td> <th:block th:text="${course.getTeacher().getTeacherFullName().getSurname()}"/> </td>
+            <td class="text-left">
+                    <form th:action="@{'/courses/delete/{id}' (id=${course.getCourseId()})}"
+                          th:method="DELETE" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <button type="submit"
+                                class="btn btn-sm btn-danger delete">
+                            <i class="fa fa-trash">Delete</i>
+                        </button>
+                    </form>
+                    <a th:href="@{'/courses/edit-form/{id}' (id=${course.getCourseId()})}"
+                       class="btn btn-sm btn-info edit" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <i class="fa fa-trash">Edit</i>
+                    </a>
+                <form th:action="@{'/courses/chooseCourse'}" th:method="POST" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <button type="submit" class=" btn btn-outline-success" name="courseId" th:value="${course.getCourseId()}">
+                        <i class="fa fa-trash">Choose course</i>
+                    </button>
+                </form>
+            </td>
+
+        </tr>
+
+    </tbody>
+    </table>
+    </div>
+    <div id="goUP">
+    <a class="btn btn-dark btnAddCourse" th:href="@{'/courses/add-form'}" sec:authorize="hasRole('ROLE_ADMIN')">Add new course</a>
+    </div>
+        <br/>
+    <br/>
+
+</main>
+</body>
+</html>

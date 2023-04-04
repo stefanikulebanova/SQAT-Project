@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search students</title>
+</head>
+<body>
+<form method="post" action="/searchStudents">
+    <input type="text" name="search"> <input type="submit" value="Search">
+</form>
+<div th:each="student: ${students}">
+    <th:block th:text="${student.name}"></th:block> <th:block th:text="${student.surname}"></th:block>
+</div>
+</body>
+</html>
