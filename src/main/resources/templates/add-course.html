@@ -16,7 +16,7 @@
              id="name"
              name="name"
              th:value="(${course} != null ? ${course.getName()} : '')"
-             placeholder="Enter course name">
+             placeholder="Enter course name" required>
     </div>
     <div>
       <label for="description">Course Description</label>
@@ -42,7 +42,7 @@
     </select>
     </div>
     <input id='courseId' type='hidden' name='courseId' th:value="${course} != null ? ${course.courseId} : ''"/><br/>
-    <button type="submit" value="Submit">Submit</button>
+    <button id="submit" type="submit" value="Submit">Submit</button>
     <a type="button" href="/courses">Back</a>
   </form>
 </div>

@@ -9,6 +9,7 @@ import mk.ukim.finki.wp.lab.repository.jpa.GradeRepository;
 import mk.ukim.finki.wp.lab.repository.jpa.StudentRepository;
 import mk.ukim.finki.wp.lab.repository.jpa.TeacherRepository;
 import mk.ukim.finki.wp.lab.service.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.management.InvalidAttributeValueException;

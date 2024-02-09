@@ -32,23 +32,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/addStudent", "/courses/add-form/", "/courses/edit-form/*").authenticated()
                 .and()
                 .formLogin()
-                .failureUrl("/login?error=BadCredentials")
-                .defaultSuccessUrl("/courses", true)
+                    .failureUrl("/login?error=BadCredentials")
+                    .defaultSuccessUrl("/courses", true)
                 .and()
                 .logout()
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/courses");
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+                    .logoutSuccessUrl("/courses");
 
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password(passwordEncoder.encode("admin"))
-//                .authorities("ROLE_ADMIN");
-        auth.authenticationProvider(authenticationProvider);
+        auth.inMemoryAuthentication()
+                .withUser("admin")
+                .password(passwordEncoder.encode("admin"))
+                .authorities("ROLE_ADMIN");
+//        auth.authenticationProvider(authenticationProvider);
     }
 }
