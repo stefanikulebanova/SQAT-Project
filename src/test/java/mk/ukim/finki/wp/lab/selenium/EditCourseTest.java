@@ -79,12 +79,12 @@ public class EditCourseTest {
     public void testScenario2() throws Exception {
         String url = System.getProperty("geb.build.baseUrl", "http://localhost:999/courses");
         driver.get(url);
-        driver.findElement(By.className("btnEditCourse")).click();
+        driver.findElement(By.className("edit")).click();
         driver.findElement(By.id("name")).sendKeys("");
         driver.findElement(By.id("submit")).click();
 
         String currentUrl = driver.getCurrentUrl();
 
-        assertEquals(currentUrl, "http://localhost:999/courses/add-form");
+        assertEquals("http://localhost:999/courses/add-form", currentUrl);
     }
 }
